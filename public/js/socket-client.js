@@ -19,6 +19,10 @@ socket.on('disconnect', () => {
     lblOfline.style.display = '';
 });
 
+socket.on('sd-mssg', (payload) => {
+    console.log(payload)
+});
+
 btnSend.addEventListener('click', () => {
     const msg = txtMessage.value;
     console.log(msg);

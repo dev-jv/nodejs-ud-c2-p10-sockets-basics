@@ -45,7 +45,8 @@ class Server {
             });
 
             socket.on('sd-mssg', (payload) => {
-                console.log(payload);
+                // console.log(payload);
+                this.io.emit('sd-mssg', payload);
             })
         });
 }
