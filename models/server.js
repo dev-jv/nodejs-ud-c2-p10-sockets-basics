@@ -16,11 +16,14 @@ class Server {
 
         // Routes
         this.routes();
+
+        // Sockets
+        this.sockets();
+
     }
 
     middlewares() {
 
-        // CORS
         // CORS
         this.app.use( cors() );
 
@@ -32,6 +35,16 @@ class Server {
     routes() {
         // this.app.use( this.paths.auth, require('../routes/auth'));
     }
+
+    sockets() {
+        this.io.on('connection', socket => {
+            console.log('connected client', socket.id);
+
+            socket.on('disconnect', () => {
+                console.log('Disconnected client', socket.id);
+            })
+        });
+}
 
     listen() {
         this.server.listen( this.port, () => {
