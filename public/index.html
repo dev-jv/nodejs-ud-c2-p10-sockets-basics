@@ -14,14 +14,25 @@
 
     <div class="container row">
         <div class="col-sm-auto">
-            <p>Server Status:</p>
+            <p>Status Server: </p>
         </div>
 
         <div class="col-sm-auto">
-            <span id="lblOnline" class="btn btn-success">Online</span>
-            <span id="lblOffline" class="btn btn-danger">Offline</span>
+            <span id="lblOnline" class="fw-bold fs-6 text-success">Online</span>
+            <span id="lblOffline" class="fw-bold fs-6 text-danger">Offline</span>
         </div>
-
+    </div>
+    <hr>
+    <br>
+    <div class="row">
+        <div class="col">
+            <input id="txtMessage" type="text" class="form-control">
+        </div>
+        <div class="col">
+            <button id="btnSend" type="button" class="btn btn-primary">
+                Enviar
+            </button>
+        </div>
     </div>
 
     <script src="./socket.io/socket.io.js"></script>

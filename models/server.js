@@ -42,6 +42,10 @@ class Server {
 
             socket.on('disconnect', () => {
                 console.log('Disconnected client', socket.id);
+            });
+
+            socket.on('sd-mssg', (payload) => {
+                console.log(payload);
             })
         });
 }

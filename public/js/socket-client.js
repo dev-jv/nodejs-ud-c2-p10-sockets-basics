@@ -2,6 +2,8 @@
 // HTML reference
 const lblOnline = document.querySelector('#lblOnline');
 const lblOfline = document.querySelector('#lblOffline');
+const txtMessage = document.querySelector('#txtMessage');
+const btnSend = document.querySelector('#btnSend');
 
 const socket = io();
 
@@ -15,4 +17,17 @@ socket.on('disconnect', () => {
     console.log('Disconnected');
     lblOnline.style.display = 'none';
     lblOfline.style.display = '';
+});
+
+btnSend.addEventListener('click', () => {
+    const msg = txtMessage.value;
+    console.log(msg);
+
+    const payload = {
+        msg,
+        id: '123ABC',
+        date: new Date().getTime()
+    };
+
+    socket.emit('sd-mssg', payload);
 });
