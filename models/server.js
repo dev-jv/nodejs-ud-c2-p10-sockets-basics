@@ -2,6 +2,8 @@ const colors = require('colors');
 const express = require('express');
 const cors = require('cors');
 
+const {socketController} = require('../sockets/controller');
+
 class Server {
     constructor() {
         this.app  = express();
@@ -31,32 +33,37 @@ class Server {
 
     sockets() { // Socket(conector) to client
         // ---------------------------------------------- <> Listening Events on Server
-        this.io.on('connect', socketClient => { // "connection" event / Server connection!
-
-            console.log('Connected client'.gray, socketClient.id);
-
-            socketClient.on('disconnect', () => { // "disconnect" event
-                console.log('Disconnected client'.brightWhite, socketClient.id);
-            });
-
-            socketClient.on('send-msg', (payload, callback) => { // "send-msg" event
-                    // ---- With a DB!
-                // async... save in DB... here!
-
-                    // ---- view in server
-                // console.log(payload);
-
-                    // ---- view in others clients
-                // this.io.emit('send-msg', payload); // view in others clients / pass event to client
-
-                    // ---- res to client req
-                const id = 123456;
-                // callback(id);
-                // callback({id, date: new Date().getTime()});
-                callback({id: id, mss: "DB response"});
-            })
-        });
+        this.io.on('connect', socketController );
     }
+
+    // sockets() { // Socket(conector) to client
+    //     // ---------------------------------------------- <> Listening Events on Server
+    //     this.io.on('connect', socketClient => { // "connection" event / Server connection!
+    //
+    //         console.log('Connected client'.gray, socketClient.id);
+    //
+    //         socketClient.on('disconnect', () => { // "disconnect" event
+    //             console.log('Disconnected client'.brightWhite, socketClient.id);
+    //         });
+    //
+    //         socketClient.on('send-msg', (payload, callback) => { // "send-msg" event
+    //             // ---- With a DB!
+    //             // async... save in DB... here!
+    //
+    //             // ---- view in server
+    //             // console.log(payload);
+    //
+    //             // ---- view in all clients
+    //             // this.io.emit('send-msg', payload); // view in others clients / pass event to client
+    //
+    //             // ---- res to client req
+    //             const id = 123456;
+    //             // callback(id);
+    //             // callback({id, date: new Date().getTime()});
+    //             callback({id: id, mss: "DB response"});
+    //         });
+    //     });
+    // }
 
     listen() {
         this.server.listen( this.port, () => {
