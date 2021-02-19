@@ -1,28 +1,29 @@
-
 // HTML reference
 const lblOnline = document.querySelector('#lblOnline');
 const lblOfline = document.querySelector('#lblOffline');
 const txtMessage = document.querySelector('#txtMessage');
 const btnSend = document.querySelector('#btnSend');
 
-const socket = io();
+const socket = io(); // Socket/Conector to server
 
-socket.on('connect', () => {
-    console.log('Connected');
+// ---------------------------------------- <> Listening Events on Server
+socket.on('connect', () => { // "connect" event
+    console.log('Connected > Server');
     lblOnline.style.display = '';
     lblOfline.style.display = 'none';
 });
 
-socket.on('disconnect', () => {
-    console.log('Disconnected');
+socket.on('disconnect', () => { // "disconnect" event
+    console.log('Disconnected > Server');
     lblOnline.style.display = 'none';
     lblOfline.style.display = '';
 });
 
-socket.on('sd-mssg', (payload) => {
-    console.log(payload)
+socket.on('send-msg', (payload) => { // "send-msg" event
+    console.log(payload) // view in client side
 });
 
+// ------------------------------------- <> Event activator
 btnSend.addEventListener('click', () => {
     const msg = txtMessage.value;
     console.log(msg);
@@ -33,5 +34,11 @@ btnSend.addEventListener('click', () => {
         date: new Date().getTime()
     };
 
-    socket.emit('sd-mssg', payload);
+    // socket.emit('send-msg', msg);
+
+    // socket.emit('send-msg', payload);
+
+    socket.emit('send-msg', payload, ( k ) => { // Pass event to server
+        console.log('From the server', k)
+    });
 });

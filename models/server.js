@@ -1,62 +1,68 @@
+const colors = require('colors');
 const express = require('express');
 const cors = require('cors');
 
 class Server {
-
     constructor() {
         this.app  = express();
         this.port = process.env.PORT;
         this.server = require('http').createServer(this.app);
-        this.io = require('socket.io')(this.server);
+        this.io = require('socket.io')(this.server); // Data of all connected sockets
 
         this.paths = {};
-
         // Middlewares
         this.middlewares();
-
         // Routes
         this.routes();
-
-        // Sockets
+        // Sockets / Conectores
         this.sockets();
-
     }
 
     middlewares() {
-
         // CORS
         this.app.use( cors() );
-
         // Public directory
         this.app.use( express.static('public') );
-
     }
 
     routes() {
         // this.app.use( this.paths.auth, require('../routes/auth'));
     }
 
-    sockets() {
-        this.io.on('connection', socket => {
-            console.log('connected client', socket.id);
+    sockets() { // Socket(conector) to client
+        // ---------------------------------------------- <> Listening Events on Server
+        this.io.on('connect', socketClient => { // "connection" event / Server connection!
 
-            socket.on('disconnect', () => {
-                console.log('Disconnected client', socket.id);
+            console.log('Connected client'.gray, socketClient.id);
+
+            socketClient.on('disconnect', () => { // "disconnect" event
+                console.log('Disconnected client'.brightWhite, socketClient.id);
             });
 
-            socket.on('sd-mssg', (payload) => {
-                // console.log(payload);
-                this.io.emit('sd-mssg', payload);
-            })
-        });
-}
+            socketClient.on('send-msg', (payload, callback) => { // "send-msg" event
+                    // ---- With a DB!
+                // async... save in DB... here!
 
-    listen() {
-        this.server.listen( this.port, () => {
-            console.log('Server running on port', this.port );
+                    // ---- view in server
+                // console.log(payload);
+
+                    // ---- view in others clients
+                // this.io.emit('send-msg', payload); // view in others clients / pass event to client
+
+                    // ---- res to client req
+                const id = 123456;
+                // callback(id);
+                // callback({id, date: new Date().getTime()});
+                callback({id: id, mss: "DB response"});
+            })
         });
     }
 
+    listen() {
+        this.server.listen( this.port, () => {
+            console.log('Server running on port'.blue, this.port );
+        });
+    }
 }
 
 module.exports = Server;
