@@ -32,12 +32,12 @@ class Server {
     }
 
     sockets() { // Socket(conector) to client
-        // ---------------------------------------------- <> Listening Events on Server
-        this.io.on('connect', socketController );
+        // ---------------------------------------------- <> Listening Events on Server > Server
+        this.io.on('connect', socketController ); // "connection" event / Server connection!
     }
 
     // sockets() { // Socket(conector) to client
-    //     // ---------------------------------------------- <> Listening Events on Server
+    //     // ---------------------------------------------- <> Listening Events on Server > Server
     //     this.io.on('connect', socketClient => { // "connection" event / Server connection!
     //
     //         console.log('Connected client'.gray, socketClient.id);
@@ -51,15 +51,23 @@ class Server {
     //             // async... save in DB... here!
     //
     //             // ---- view in server
-    //             // console.log(payload);
+    //             console.log(payload);
     //
-    //             // ---- view in all clients
-    //             // this.io.emit('send-msg', payload); // view in others clients / pass event to client
+    //             // ---- view in all clients / io.emit ...or some cases..
+    //             // this.io.emit('send-msg', payload); // pass event to client
     //
-    //             // ---- res to client req
+    //             // ---- view in others clients
+    //             // socketClient.broadcast.emit('send-msg', payload); // pass event to client
+    //
+    //             // // ---- res to requesting client
+    //             // const id = 123456;
+    //             // // callback(id);
+    //             // // callback({id, date: new Date().getTime()});
+    //             // callback({id: id, mss: "DB response"});
+    //
+    //             //---- view in others clients, res to requesting client
     //             const id = 123456;
-    //             // callback(id);
-    //             // callback({id, date: new Date().getTime()});
+    //             socketClient.broadcast.emit('send-msg', payload);
     //             callback({id: id, mss: "DB response"});
     //         });
     //     });

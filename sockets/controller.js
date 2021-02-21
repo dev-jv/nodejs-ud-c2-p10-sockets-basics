@@ -3,6 +3,11 @@ const socketController = socketClient => { // "connection" event / Server connec
 
     console.log('Connected client'.gray, socketClient.id);
 
+    // socketClient.emit('send-msg', { // Test direct send - Send from server
+    //     user: 'Admin',
+    //     msg: 'From the svr... ...'
+    // });
+
     socketClient.on('disconnect', () => { // "disconnect" event
         console.log('Disconnected client'.brightWhite, socketClient.id);
     });
@@ -15,12 +20,16 @@ const socketController = socketClient => { // "connection" event / Server connec
         // console.log(payload);
 
         // ---- view in all clients / io.emit ...or some cases..
-        // socketClient.broadcast.emit('send-msg', payload); // view in others clients / pass event to client
+        // socketClient.emit('send-msg', payload); // pass event to client
+        // socketClient.broadcast.emit('send-msg', payload); // pass event to client
 
-        // ---- res to client req
+        // ---- view in others clients
+        // socketClient.broadcast.emit('send-msg', payload); // pass event to client
+
+        // ---- res to requesting client
         // const id = 123456;
-        // callback(id);
-        // callback({id, date: new Date().getTime()});
+        // // callback(id);
+        // // callback({id, date: new Date().getTime()});
         // callback({id: id, mss: "DB response"});
 
         // ---- view in others clients and return msg in client req
