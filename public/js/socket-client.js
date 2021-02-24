@@ -1,6 +1,6 @@
 // HTML reference
 const lblOnline = document.querySelector('#lblOnline');
-const lblOfline = document.querySelector('#lblOffline');
+const lblOffline = document.querySelector('#lblOffline');
 const txtMessage = document.querySelector('#txtMessage');
 const btnSend = document.querySelector('#btnSend');
 
@@ -10,13 +10,13 @@ const socket = io(); // Socket/Conector to server
 socket.on('connect', () => { // "connect" event
     console.log('Connected > Server');
     lblOnline.style.display = '';
-    lblOfline.style.display = 'none';
+    lblOffline.style.display = 'none';
 });
 
 socket.on('disconnect', () => { // "disconnect" event
     console.log('Disconnected > Server');
     lblOnline.style.display = 'none';
-    lblOfline.style.display = '';
+    lblOffline.style.display = '';
 });
 
 socket.on('send-msg', (payload) => { // "send-msg" event

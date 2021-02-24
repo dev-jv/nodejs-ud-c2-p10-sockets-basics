@@ -1,6 +1,6 @@
-const colors = require('colors');
 const express = require('express');
 const cors = require('cors');
+const colors = require('colors');
 
 const {socketController} = require('../sockets/controller');
 
